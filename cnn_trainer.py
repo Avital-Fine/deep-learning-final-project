@@ -1,11 +1,10 @@
 import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 
 class CNNImageClassifier(nn.Module):
@@ -34,13 +33,13 @@ class CNNImageClassifier(nn.Module):
         Input image tensor is passed through feature extractor and classifier to produce logits for each class.
 
     Example:
-        model = GenericImageClassifier(num_classes=10)
+        model = CNNImageClassifier(num_classes=10)
         output = model(torch.randn(8, 3, 32, 32))  # batch of 8 RGB images, 32x32 pixels
     """
     def __init__(self, num_classes, norm_layer=nn.BatchNorm2d):
         super(CNNImageClassifier, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, padding=1),
+            nn.Conv2d(1, 64, kernel_size=3, padding=1),
             norm_layer(64),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2),
@@ -137,6 +136,7 @@ if __name__ == "__main__":
 
     # Transforms
     transform = transforms.Compose([
+        transforms.Grayscale(num_output_channels=1),  # Convert to grayscale
         transforms.Resize((64, 64)),
         transforms.ToTensor()
     ])
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     plt.figure(figsize=(10, 5))
     plt.plot(epochs, train_losses, label='Train Loss')
     plt.plot(epochs, val_losses, label='Validation Loss')
-    plt.plot(epochs, val_accuracies, label='Validation Accuracy')
+    # plt.plot(epochs, val_accuracies, label='Validation Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Loss / Accuracy')
     plt.title('Training Progress')
@@ -179,4 +179,3 @@ if __name__ == "__main__":
 
     # Evaluate on test set
     test_accuracy = evaluate_model(model, test_loader, device)
-    
