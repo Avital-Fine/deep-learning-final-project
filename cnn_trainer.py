@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
+import argparse
 
 
 class CNNImageClassifier(nn.Module):
@@ -127,9 +128,18 @@ def evaluate_model(model, test_loader, device):
     return accuracy
 
 
-if __name__ == "__main__":
+# ------------------------ Main Training ------------------------
+def main():
+    # Argument parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--img_size', type=int, default=64)
+    parser.add_argument('--batch_size', type=int, default=32)
+    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--lr', type=float, default=0.001)
+    args = parser.parse_args()
+
     # Set device
-    device = torch.device('mps' if torch.backends.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Data paths
     data_dir = 'chest_xray'
@@ -147,21 +157,24 @@ if __name__ == "__main__":
     test_dataset = datasets.ImageFolder(root=f'{data_dir}/test', transform=transform)
 
     # DataLoaders
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
-    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
+    train_loader = DataLoader(train_dataset, args.batch_size, shuffle=True)
+    val_loader = DataLoader(val_dataset, args.batch_size, shuffle=False)
+    test_loader = DataLoader(test_dataset, args.batch_size, shuffle=False)
 
     # Model, criterion, optimizer
     num_classes = len(train_dataset.classes)
     model = CNNImageClassifier(num_classes=num_classes)
     model.to(device)
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), args.lr)
 
     # Train
     train_losses, val_losses, val_accuracies = train_model(
-        model, train_loader, val_loader, criterion, optimizer, device, num_epochs=10
+        model, train_loader, val_loader, criterion, optimizer, device, args.epochs
     )
+
+    # Evaluate on test set
+    test_accuracy = evaluate_model(model, test_loader, device)
 
     # Plot results
     epochs = range(1, len(train_losses) + 1)
@@ -177,5 +190,5 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.show()
 
-    # Evaluate on test set
-    test_accuracy = evaluate_model(model, test_loader, device)
+if __name__ == '__main__':
+    main()
