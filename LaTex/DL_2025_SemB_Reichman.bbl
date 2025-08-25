@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{dosovitskiy2020image}
+Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn, Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby.
+\newblock An image is worth 16x16 words: Transformers for image recognition at scale.
+\newblock 2020.
+
+\bibitem{kaggle_pneumonia}
+Paul Mooney.
+\newblock Chest x-ray images (pneumonia).
+\newblock Available at: https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia (Accessed: 2025-08-25), 2018.
+
+\end{thebibliography}

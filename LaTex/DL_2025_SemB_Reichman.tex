@@ -9,18 +9,19 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{subcaption}
+\usepackage{hyperref}
 
 \begin{document}
 
 \maketitle
 
 \section{Introduction}
-In recent years, deep learning has revolutionized the field of medical imaging, especially in automated diagnosis using chest X-rays. Pneumonia classification is a key use case due to its high clinical importance. Traditionally, Convolutional Neural Networks (CNNs) have been the dominant architecture for computer vision tasks. More recently, Vision Transformers (ViTs) \citep{https://arxiv.org/pdf/2010.11929} have gained attention as a strong alternative.  
+In recent years, deep learning has revolutionized the field of medical imaging, especially in automated diagnosis using chest X-rays. Pneumonia classification is a key use case due to its high clinical importance. Traditionally, Convolutional Neural Networks (CNNs) have been the dominant architecture for computer vision tasks. More recently, Vision Transformers (ViTs) \citep{dosovitskiy2020image} have gained attention as a strong alternative.  
 In this project, we compare CNN and ViT architectures for binary pneumonia detection from grayscale chest X-ray images. The goal is to analyze their relative performance, training behavior, and generalization ability.
 
 \section{Methodology}
 
-Our approach focused on comparing two fundamentally different architectures for the task of pneumonia detection from chest X-ray images: Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs). Both models were trained on the publicly available dataset \cite{https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia}, which is already split into training, validation, and test sets. We ensured that the test set remained untouched until final evaluation.
+Our approach focused on comparing two fundamentally different architectures for the task of pneumonia detection from chest X-ray images: Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs). Both models were trained on the publicly available dataset \cite{kaggle_pneumonia}, which is already split into training, validation, and test sets. We ensured that the test set remained untouched until final evaluation.
 
 \subsection{Dataset}
 The dataset consists of grayscale chest X-ray images, divided into two categories: ``Normal'' and ``Pneumonia''. The training set contains approximately 5,200 images, the validation set about 16 images, and the test set about 600 images. We resized all images to $224 \times 224$ pixels and normalized pixel intensities to the range $[0,1]$. Since ViTs were designed for RGB images, grayscale X-rays were converted to 3 channels by duplication.
@@ -28,7 +29,7 @@ The dataset consists of grayscale chest X-ray images, divided into two categorie
 \subsection{Models}
 
 \textbf{CNN:} We implemented a standard CNN architecture inspired by VGG-like networks, with convolutional, pooling, and fully connected layers. This model served as a strong baseline, given CNNs' success in medical imaging. It contains approximately 404k trainable parameters.
-\textbf{ViT:} Our Vision Transformer implementation followed the core idea of Dosovitskiy et al.~\cite{https://arxiv.org/pdf/2010.11929}. We experimented with a patch size of $16 \times 16$, embedding dimension of 256, and 6 transformer encoder layers with 8 attention heads each. This model is much larger, containing roughly 14.6M trainable parameters.
+\textbf{ViT:} Our Vision Transformer implementation followed the core idea of Dosovitskiy et al.~\cite{dosovitskiy2020image}. We experimented with a patch size of $16 \times 16$, embedding dimension of 256, and 6 transformer encoder layers with 8 attention heads each. This model is much larger, containing roughly 14.6M trainable parameters.
 
 \subsection{Training}
 Both models were trained using the Adam optimizer with a learning rate of $1e^{-4}$ and batch size of 32. Early stopping based on validation loss was employed to prevent overfitting. CNN converged within $\sim$10 epochs, while the ViT required around $\sim$15 epochs. All experiments were run locally on an Apple M4-based macOS system.
@@ -59,7 +60,7 @@ ViT   & 0.77    & 0.81      & 0.77   & 0.75 \\
 \end{table}
 
 \subsection{Learning Curves}
-Figure~\ref{fig:learning_curves} shows the training loss over epochs. CNN achieved faster convergence, while ViT required longer training but eventually achieved slightly higher recall.
+Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} show the training loss over epochs. CNN achieved faster convergence, while ViT required longer training but eventually achieved slightly higher recall.
 
 \begin{figure}[h!]
     \centering
@@ -74,6 +75,8 @@ Figure~\ref{fig:learning_curves} shows the training loss over epochs. CNN achiev
         \caption{ViT Training Loss}
         \label{fig:vit_training_losses}
     \end{subfigure}
+    \caption{Training loss curves for CNN and ViT models.}
+    \label{fig:training_losses}
 \end{figure}
 
 \section{Discussion}
@@ -91,8 +94,10 @@ Our experiments revealed several important insights:
 Overall, while CNNs remain a strong and efficient baseline for medical imaging tasks, ViTs represent a promising direction, particularly when pretrained on large datasets or when interpretability of predictions is essential.
 
 \section{Code}
-The code for this project can be accessed at: \texttt{https://github.com/Avital-Fine/deep-learning-final-project}
+The code for this project is available on GitHub: 
+\href{https://github.com/Avital-Fine/deep-learning-final-project}{\texttt{deep-learning-final-project}}
 
 \bibliographystyle{plain}
 \bibliography{references}
+
 \end{document}
