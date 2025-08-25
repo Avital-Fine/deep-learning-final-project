@@ -1,8 +1,8 @@
-PWD /Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project
+PWD /Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/LaTex
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/DL_2025_SemB_Reichman.tex
+INPUT /Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/LaTex/DL_2025_SemB_Reichman.tex
 OUTPUT DL_2025_SemB_Reichman.log
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls

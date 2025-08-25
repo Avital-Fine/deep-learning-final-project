@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.8.25)  25 AUG 2025 20:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.8.25)  25 AUG 2025 20:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**"/Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/DL_2025_SemB_Reichman.tex"
-(/Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/DL_2025_SemB_Reichman.tex
+**"/Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/LaTex/DL_2025_SemB_Reichman.tex"
+(/Users/avitalfine/Library/CloudStorage/OneDrive-ReichmanUniversity/רשתות נוירונים/Final Project/deep-learning-final-project/LaTex/DL_2025_SemB_Reichman.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (/usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
@@ -308,14 +308,14 @@ Package rerunfilecheck Info: File `DL_2025_SemB_Reichman.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  10385 strings out of 473190
- 167425 string characters out of 5715800
+ 167443 string characters out of 5715800
  565149 words of memory out of 5000000
  33523 multiletter control sequences out of 15000+600000
  563894 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,636b,520s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,8n,79p,642b,520s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on DL_2025_SemB_Reichman.pdf (4 pages, 202621 bytes).
+Output written on DL_2025_SemB_Reichman.pdf (4 pages, 202665 bytes).
 PDF statistics:
  157 PDF objects out of 1000 (max. 8388607)
  121 compressed objects within 2 object streams

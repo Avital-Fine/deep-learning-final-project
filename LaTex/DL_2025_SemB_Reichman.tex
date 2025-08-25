@@ -32,7 +32,7 @@ The dataset consists of grayscale chest X-ray images, divided into two categorie
 \textbf{ViT:} Our Vision Transformer implementation followed the core idea of Dosovitskiy et al.~\cite{dosovitskiy2020image}. We experimented with a patch size of $16 \times 16$, embedding dimension of 256, and 6 transformer encoder layers with 8 attention heads each. This model is much larger, containing roughly 14.6M trainable parameters.
 
 \subsection{Training}
-Both models were trained using the Adam optimizer with a learning rate of $1e^{-4}$ and batch size of 32. Early stopping based on validation loss was employed to prevent overfitting. CNN converged within $\sim$10 epochs, while the ViT required around $\sim$15 epochs. All experiments were run locally on an Apple M4-based macOS system.
+Both models were trained using the Adam optimizer with a learning rate of $1e^{-4}$ and batch size of 32. Early stopping based on validation loss was employed to prevent overfitting. CNN converged within $\sim$10 epochs, while the ViT required around $\sim$15 epochs. All experiments were run locally on an Apple M4-based macOS system, with training times approximately 7 minutes for CNN and 60 minutes for ViT.
 
 \subsection{Challenges}
 Key challenges included: (1) training ViTs on grayscale data, which required channel expansion, (2) preventing overfitting given the relatively small dataset, and (3) ensuring fair comparison by keeping training procedures consistent across models.
