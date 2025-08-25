@@ -2,10 +2,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+import argparse
+import time
 from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
-import argparse
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
 
 
 class CNNImageClassifier(nn.Module):
@@ -73,6 +76,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
     val_accuracies = []
 
     for epoch in range(num_epochs):
+        epoch_start = time.time()
         model.train()
         running_loss = 0.0
         for images, labels in train_loader:
@@ -105,6 +109,10 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
         val_accuracies.append(epoch_val_accuracy)
 
         print(f"Epoch {epoch+1}/{num_epochs} | Train Loss: {epoch_train_loss:.4f} | Val Loss: {epoch_val_loss:.4f} | Val Acc: {epoch_val_accuracy:.2%}")
+        
+        epoch_end = time.time()
+        print(f"Epoch Time: {(epoch_end - epoch_start):.2f} sec")
+
         if early_stop_acc and epoch_val_accuracy >= early_stop_acc:
             print("Early stopping criteria met. Stopping training.")
             break
@@ -114,28 +122,37 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, device, n
 
 def evaluate_model(model, test_loader, device):
     model.eval()
-    correct = 0
-    total = 0
+    all_labels = []
+    all_preds = []
     with torch.no_grad():
         for images, labels in test_loader:
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
             _, predicted = torch.max(outputs, 1)
-            correct += (predicted == labels).sum().item()
-            total += labels.size(0)
-    accuracy = correct / total
-    print(f"Test Accuracy: {accuracy:.2%}")
-    return accuracy
+            all_labels.extend(labels.cpu().numpy())
+            all_preds.extend(predicted.cpu().numpy())
+
+    acc = accuracy_score(all_labels, all_preds)
+    precision = precision_score(all_labels, all_preds, average='weighted')
+    recall = recall_score(all_labels, all_preds, average='weighted')
+    f1 = f1_score(all_labels, all_preds, average='weighted')
+    num_params = sum(p.numel() for p in model.parameters())
+
+    print(f"Model: {model.__class__.__name__}")
+    print(f"#Params: {num_params}")
+    print(f"Accuracy: {acc:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"F1-score: {f1:.4f}")
 
 
 # ------------------------ Main Training ------------------------
 def main():
     # Argument parser
     parser = argparse.ArgumentParser()
-    parser.add_argument('--img_size', type=int, default=64)
     parser.add_argument('--batch_size', type=int, default=32)
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--lr', type=float, default=0.001)
+    parser.add_argument('--lr', type=float, default=1e-4)
     args = parser.parse_args()
 
     # Set device
@@ -168,22 +185,26 @@ def main():
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), args.lr)
 
+    start_time = time.time()
+
     # Train
     train_losses, val_losses, val_accuracies = train_model(
         model, train_loader, val_loader, criterion, optimizer, device, args.epochs
     )
 
+    total_time = time.time() - start_time
+    print(f"Total training time: {total_time/60:.2f} minutes")
+
     # Evaluate on test set
-    test_accuracy = evaluate_model(model, test_loader, device)
+    evaluate_model(model, test_loader, device)
 
     # Plot results
     epochs = range(1, len(train_losses) + 1)
     plt.figure(figsize=(10, 5))
     plt.plot(epochs, train_losses, label='Train Loss')
-    plt.plot(epochs, val_losses, label='Validation Loss')
-    # plt.plot(epochs, val_accuracies, label='Validation Accuracy')
+    # plt.plot(epochs, val_losses, label='Validation Loss')
     plt.xlabel('Epoch')
-    plt.ylabel('Loss / Accuracy')
+    plt.ylabel('Loss')
     plt.title('Training Progress')
     plt.legend()
     plt.grid(True)

@@ -1,5 +1,6 @@
 import os
 import argparse
+import time
 import json
 import torch
 import torch.nn as nn
@@ -156,7 +157,7 @@ def main():
     parser.add_argument('--num_heads', type=int, default=6)
     parser.add_argument('--batch_size', type=int, default=32)
     parser.add_argument('--epochs', type=int, default=15)
-    parser.add_argument('--lr', type=float, default=3e-4)
+    parser.add_argument('--lr', type=float, default=1e-4)
     args = parser.parse_args()
 
     # Set device
@@ -192,39 +193,62 @@ def main():
         depth=args.depth, num_heads=args.num_heads, num_classes=len(train_dataset.classes)
     ).to(device)
 
-    print(f'Model params: {sum(p.numel() for p in model.parameters())/1e6:.2f}M')
-
     criterion = nn.CrossEntropyLoss()
     optimizer = AdamW(model.parameters(), lr=args.lr)
 
     # Train
     best_val_auc = 0.
     best_model_path = os.path.join(out_dir, 'best.pt')
+    train_losses = []
+    val_losses = []
+
+    start_time = time.time()
 
     for epoch in range(1, args.epochs+1):
+        epoch_start = time.time()
         train_loss, train_acc = train_one_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, val_labels, val_probs = evaluate(model, val_loader, criterion, device)
         val_auc = roc_auc_score(val_labels, val_probs[:,1])
         print(f'Epoch {epoch}: Train loss {train_loss:.4f}, acc {train_acc:.4f} | Val loss {val_loss:.4f}, AUC {val_auc:.4f}')
 
+        train_losses.append(train_loss)
+        val_losses.append(val_loss)
+
         if val_auc > best_val_auc:
             best_val_auc = val_auc
             torch.save(model.state_dict(), best_model_path)
+        
+        epoch_end = time.time()
+        print(f"Epoch Time: {(epoch_end - epoch_start):.2f} sec")
 
+    total_time = time.time() - start_time
+    print(f"Total training time: {total_time/60:.2f} minutes")
+    
     # Test evaluation
     model.load_state_dict(torch.load(best_model_path))
     test_loss, test_labels, test_probs = evaluate(model, test_loader, criterion, device)
     test_preds = test_probs.argmax(axis=1)
 
+    acc = accuracy_score(test_labels, test_preds)
+    precision = precision_score(test_labels, test_preds, average='weighted')
+    recall = recall_score(test_labels, test_preds, average='weighted')
+    f1 = f1_score(test_labels, test_preds, average='weighted')
+    num_params = sum(p.numel() for p in model.parameters())
+
+    print(f"Model: {model.__class__.__name__}")
+    print(f"#Params: {num_params}")
+    print(f"Accuracy: {acc:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall: {recall:.4f}")
+    print(f"F1-score: {f1:.4f}")
+
     metrics = {
-        'accuracy': accuracy_score(test_labels, test_preds),
-        'precision': precision_score(test_labels, test_preds),
-        'recall': recall_score(test_labels, test_preds),
-        'f1': f1_score(test_labels, test_preds),
+        'accuracy': acc,
+        'precision': precision,
+        'recall': recall,
+        'f1': f1,
         'roc_auc': roc_auc_score(test_labels, test_probs[:,1])
     }
-
-    print('Test metrics:', metrics)
 
     with open(os.path.join(out_dir, 'metrics.json'), 'w') as f:
         json.dump(metrics, f, indent=4)
@@ -233,6 +257,19 @@ def main():
     report = classification_report(test_labels, test_preds, output_dict=True)
     with open(os.path.join(out_dir, 'classification_report.json'), 'w') as f:
         json.dump(report, f, indent=4)
+
+    # Plot results
+    epochs = range(1, len(train_losses) + 1)
+    plt.figure(figsize=(10, 5))
+    plt.plot(epochs, train_losses, label='Train Loss')
+    # plt.plot(epochs, val_losses, label='Validation Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training Progress')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == '__main__':
     main()
