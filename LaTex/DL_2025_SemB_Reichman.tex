@@ -86,9 +86,9 @@ Our experiments revealed several important insights:
 \begin{itemize}
     \item \textbf{CNN efficiency:} The CNN baseline trained significantly faster and achieved high accuracy in fewer epochs. Its strong inductive bias for local features made it particularly effective for detecting pneumonia patterns that are localized in lung regions.
     \item \textbf{ViT generalization:} The Vision Transformer required more data and longer training but ultimately achieved slightly higher recall. This suggests that ViTs can better capture global context across the X-ray image, such as diffuse pneumonia patterns.
-    \item \textbf{Medical relevance:} ViT’s improved recall is noteworthy, as missing pneumonia cases (false negatives) can be more harmful than false positives. This suggests ViTs may have practical value in medical screening despite higher training costs.
     \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.6M, which explains the longer training time and larger memory requirements.
     \item \textbf{Interpretability:} ViT attention maps provided more interpretable visualizations, highlighting relevant lung regions. CNN feature maps were less intuitive in comparison.
+    \item \textbf{Medical relevance:} ViT’s improved recall is noteworthy, as missing pneumonia cases (false negatives) can be more harmful than false positives. This suggests ViTs may have practical value in medical screening despite higher training costs.
 \end{itemize}
 
 Overall, while CNNs remain a strong and efficient baseline for medical imaging tasks, ViTs represent a promising direction, particularly when pretrained on large datasets or when interpretability of predictions is essential.
