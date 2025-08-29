@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.8.25)  29 AUG 2025 14:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.8.25)  29 AUG 2025 14:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -280,13 +280,13 @@ File: vit_training_loss.png Graphic file (type png)
 Package pdftex.def Info: vit_training_loss.png  used on input line 76.
 (pdftex.def)             Requested size: 155.24895pt x 77.62256pt.
 
-
-[3{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./cnn_training_loss.png> <./vit_training_loss.png>]
-Overfull \hbox (5.31854pt too wide) in paragraph at lines 100--102
+Overfull \hbox (5.31854pt too wide) in paragraph at lines 99--101
 \OT1/cmr/m/n/10 The code for this project is avail-able on GitHub: []\OT1/cmtt/m/n/10 deep-learning-final-project[] 
  []
 
 (./DL_2025_SemB_Reichman.bbl
+
+[3{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./cnn_training_loss.png> <./vit_training_loss.png>]
 Underfull \hbox (badness 3492) in paragraph at lines 9--12
 []\OT1/cmr/m/n/10 Paul Mooney.  Chest x-ray im-ages (pneu-mo-nia).  Avail-able at:
  []
@@ -315,7 +315,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,642b,520s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on DL_2025_SemB_Reichman.pdf (4 pages, 203513 bytes).
+Output written on DL_2025_SemB_Reichman.pdf (4 pages, 203338 bytes).
 PDF statistics:
  157 PDF objects out of 1000 (max. 8388607)
  121 compressed objects within 2 object streams

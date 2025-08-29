@@ -86,15 +86,14 @@ Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} sh
 Our experiments revealed several important insights:
 
 \begin{itemize}
-    \item \textbf{CNN efficiency:} The CNN baseline trained significantly faster and achieved high accuracy in fewer epochs. Its strong inductive bias for local features made it particularly effective for detecting pneumonia patterns that are localized in lung regions.
-    \item \textbf{ViT generalization:} The Vision Transformer required more data and longer training but ultimately achieved slightly higher recall. This suggests that ViTs can better capture global context across the X-ray image, such as diffuse pneumonia patterns.
-    \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.4M, which explains the longer training time and larger memory requirements.
-    \item \textbf{Overfitting behavior:} The CNN showed more stable generalization on the small dataset, whereas the ViT demonstrated stronger fitting capacity but tended to overfit due to its higher complexity and data requirements.
-    \item \textbf{Interpretability:} ViT attention maps provided more interpretable visualizations, highlighting relevant lung regions. CNN feature maps were less intuitive in comparison.
-    \item \textbf{Medical relevance:} Both models achieved comparable recall, indicating similar effectiveness in minimizing false negatives. However, ViTs may still hold promise for medical screening if trained on larger datasets, given their ability to capture global context and provide more interpretable attention maps.
+    \item \textbf{CNN efficiency:} The CNN baseline trained significantly faster and achieved high accuracy in fewer epochs. Its strong inductive bias for local features made it effective for detecting pneumonia patterns localized in lung regions.
+    \item \textbf{ViT capacity:} The Vision Transformer required more training time and data to reach its performance, reflecting its higher model complexity, but it can capture more global context across the X-ray image.
+    \item \textbf{Overfitting behavior:} The CNN generalized more stably on the small dataset, whereas the ViT showed stronger fitting capacity but tended to overfit due to its higher complexity and data requirements.
+    \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.4M, explaining the longer training time and larger memory requirements.
+    \item \textbf{Interpretability:} ViT attention maps provided more interpretable visualizations, highlighting relevant lung regions, while CNN feature maps were less intuitive.
 \end{itemize}
 
-Overall, CNNs remain a strong and efficient baseline for medical imaging tasks, while ViTs represent a promising direction, especially when pretrained on large datasets or when interpretability is a priority.
+Overall, CNNs remain a strong and efficient baseline for medical imaging tasks, while ViTs represent a promising direction, especially when pretrained on large datasets or when interpretability is important.
 
 \section{Code}
 The code for this project is available on GitHub: 
