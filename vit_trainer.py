@@ -5,10 +5,10 @@ import json
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from torch.optim import AdamW
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix, classification_report
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -171,7 +171,7 @@ def main():
     # Transforms
     transform = transforms.Compose([
         transforms.Resize((args.img_size, args.img_size)),
-        transforms.Grayscale(num_output_channels=3),  # repeat grayscale
+        transforms.Grayscale(num_output_channels=1),
         transforms.ToTensor(),
     ])
 
@@ -190,7 +190,8 @@ def main():
     # Model, criterion, optimizer
     model = VisionTransformer(
         img_size=args.img_size, patch_size=args.patch_size, embed_dim=args.embed_dim,
-        depth=args.depth, num_heads=args.num_heads, num_classes=len(train_dataset.classes)
+        depth=args.depth, num_heads=args.num_heads, num_classes=len(train_dataset.classes),
+        in_chans=1
     ).to(device)
 
     criterion = nn.CrossEntropyLoss()
@@ -208,14 +209,15 @@ def main():
         epoch_start = time.time()
         train_loss, train_acc = train_one_epoch(model, train_loader, optimizer, criterion, device)
         val_loss, val_labels, val_probs = evaluate(model, val_loader, criterion, device)
-        val_auc = roc_auc_score(val_labels, val_probs[:,1])
-        print(f'Epoch {epoch}: Train loss {train_loss:.4f}, acc {train_acc:.4f} | Val loss {val_loss:.4f}, AUC {val_auc:.4f}')
+        val_preds = (val_probs[:, 1] >= 0.5).astype(int)
+        val_acc = accuracy_score(val_labels, val_preds)
+        print(f'Epoch {epoch}: Train loss {train_loss:.4f}, acc {train_acc:.4f} | Val loss {val_loss:.4f}, acc {val_acc:.4f}')
 
         train_losses.append(train_loss)
         val_losses.append(val_loss)
 
-        if val_auc > best_val_auc:
-            best_val_auc = val_auc
+        if val_acc > best_val_auc:
+            best_val_auc = val_acc
             torch.save(model.state_dict(), best_model_path)
         
         epoch_end = time.time()
@@ -246,8 +248,7 @@ def main():
         'accuracy': acc,
         'precision': precision,
         'recall': recall,
-        'f1': f1,
-        'roc_auc': roc_auc_score(test_labels, test_probs[:,1])
+        'f1': f1
     }
 
     with open(os.path.join(out_dir, 'metrics.json'), 'w') as f:
@@ -262,7 +263,7 @@ def main():
     epochs = range(1, len(train_losses) + 1)
     plt.figure(figsize=(10, 5))
     plt.plot(epochs, train_losses, label='Train Loss')
-    # plt.plot(epochs, val_losses, label='Validation Loss')
+    plt.plot(epochs, val_losses, label='Validation Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training Progress')

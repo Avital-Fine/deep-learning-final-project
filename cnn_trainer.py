@@ -202,7 +202,7 @@ def main():
     epochs = range(1, len(train_losses) + 1)
     plt.figure(figsize=(10, 5))
     plt.plot(epochs, train_losses, label='Train Loss')
-    # plt.plot(epochs, val_losses, label='Validation Loss')
+    plt.plot(epochs, val_losses, label='Validation Loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training Progress')

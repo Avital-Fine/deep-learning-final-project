@@ -24,19 +24,21 @@ In this project, we compare CNN and ViT architectures for binary pneumonia detec
 Our approach focused on comparing two fundamentally different architectures for the task of pneumonia detection from chest X-ray images: Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs). Both models were trained on the publicly available dataset \cite{kaggle_pneumonia}, which is already split into training, validation, and test sets. We ensured that the test set remained untouched until final evaluation.
 
 \subsection{Dataset}
-The dataset consists of grayscale chest X-ray images, divided into two categories: ``Normal'' and ``Pneumonia''. The training set contains approximately 5,200 images, the validation set about 16 images, and the test set about 600 images. We resized all images to $224 \times 224$ pixels and normalized pixel intensities to the range $[0,1]$. Since ViTs were designed for RGB images, grayscale X-rays were converted to 3 channels by duplication.
+The dataset consists of grayscale chest X-ray images, divided into two categories: ``Normal'' and ``Pneumonia''. The training set contains approximately 5,200 images, the validation set about 16 images, and the test set about 600 images. We resized all images to $224 \times 224$ pixels and normalized pixel intensities to the range $[0,1]$.
 
 \subsection{Models}
 
 \textbf{CNN:} We implemented a standard CNN architecture inspired by VGG-like networks, with convolutional, pooling, and fully connected layers. This model served as a strong baseline, given CNNs' success in medical imaging. It contains approximately 404k trainable parameters.
-\textbf{ViT:} Our Vision Transformer implementation followed the core idea of Dosovitskiy et al.~\cite{dosovitskiy2020image}. We experimented with a patch size of $16 \times 16$, embedding dimension of 256, and 6 transformer encoder layers with 8 attention heads each. This model is much larger, containing roughly 14.6M trainable parameters.
+\textbf{ViT:} Our Vision Transformer implementation followed the core idea of Dosovitskiy et al.~\cite{dosovitskiy2020image}. We experimented with a patch size of $16 \times 16$, embedding dimension of 256, and 6 transformer encoder layers with 8 attention heads each. This model is much larger, containing roughly 14.4M trainable parameters.
 
 \subsection{Training}
 Both models were trained using the Adam optimizer with a learning rate of $1e^{-4}$ and batch size of 32. Early stopping based on validation loss was employed to prevent overfitting. CNN converged within $\sim$10 epochs, while the ViT required around $\sim$15 epochs. All experiments were run locally on an Apple M4-based macOS system, with training times approximately 7 minutes for CNN and 60 minutes for ViT.
 
 \subsection{Challenges}
-Key challenges included: (1) training ViTs on grayscale data, which required channel expansion, (2) preventing overfitting given the relatively small dataset, and (3) ensuring fair comparison by keeping training procedures consistent across models.
-
+Key challenges included: 
+(1) preventing overfitting given the relatively small dataset, 
+(2) ensuring fair comparison by keeping training procedures consistent across models, and 
+(3) dealing with computational efficiency and resource constraints, since the ViT required significantly more time and memory to train compared to the CNN.
 \section{Experimental Results}
 
 \subsection{Evaluation Metrics}
@@ -52,7 +54,7 @@ Table~\ref{tab:results} summarizes the test set performance of CNN vs. ViT.
 Model & Accuracy & Precision & Recall & F1-score \\
 \midrule
 CNN   & 0.85    & 0.86      & 0.85   & 0.85 \\
-ViT   & 0.77    & 0.81      & 0.77   & 0.75 \\
+ViT   & 0.78    & 0.78      & 0.77   & 0.75 \\
 \bottomrule
 \end{tabular}
 \caption{Comparison of CNN and ViT performance on the test set.}
@@ -60,7 +62,7 @@ ViT   & 0.77    & 0.81      & 0.77   & 0.75 \\
 \end{table}
 
 \subsection{Learning Curves}
-Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} show the training loss over epochs. CNN achieved faster convergence, while ViT required longer training but eventually achieved slightly higher recall.
+Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} show the training loss over epochs. CNN achieved faster convergence and outperformed ViT across all metrics, including recall, while ViT required longer training but still lagged behind CNN.
 
 \begin{figure}[h!]
     \centering
@@ -86,12 +88,13 @@ Our experiments revealed several important insights:
 \begin{itemize}
     \item \textbf{CNN efficiency:} The CNN baseline trained significantly faster and achieved high accuracy in fewer epochs. Its strong inductive bias for local features made it particularly effective for detecting pneumonia patterns that are localized in lung regions.
     \item \textbf{ViT generalization:} The Vision Transformer required more data and longer training but ultimately achieved slightly higher recall. This suggests that ViTs can better capture global context across the X-ray image, such as diffuse pneumonia patterns.
-    \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.6M, which explains the longer training time and larger memory requirements.
+    \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.4M, which explains the longer training time and larger memory requirements.
+    \item \textbf{Overfitting behavior:} The CNN showed more stable generalization on the small dataset, whereas the ViT demonstrated stronger fitting capacity but tended to overfit due to its higher complexity and data requirements.
     \item \textbf{Interpretability:} ViT attention maps provided more interpretable visualizations, highlighting relevant lung regions. CNN feature maps were less intuitive in comparison.
     \item \textbf{Medical relevance:} ViT’s improved recall is noteworthy, as missing pneumonia cases (false negatives) can be more harmful than false positives. This suggests ViTs may have practical value in medical screening despite higher training costs.
 \end{itemize}
 
-Overall, while CNNs remain a strong and efficient baseline for medical imaging tasks, ViTs represent a promising direction, particularly when pretrained on large datasets or when interpretability of predictions is essential.
+Overall, CNNs remain a strong and efficient baseline for medical imaging tasks, while ViTs represent a promising direction, especially when pretrained on large datasets or when interpretability is a priority.
 
 \section{Code}
 The code for this project is available on GitHub: 
