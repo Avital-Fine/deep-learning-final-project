@@ -42,13 +42,7 @@ We aim to analyze model performance, training behavior, and generalization.
 | ViT   | 0.78     | 0.78     | 0.77   | 0.75     |
 
 - **CNN:** ~404k parameters, faster convergence, strong baseline.  
-- **ViT:** ~14.4M parameters, longer training, better recall, captures global context.
-
-### Observations
-
-- CNN is efficient and performs well for local features.  
-- ViT generalizes better for diffuse patterns but requires more data and compute.  
-- ViT attention maps are more interpretable for highlighting relevant lung regions.  
+- **ViT:** ~14.4M parameters, longer training, better recall, captures global context. 
 
 ---
 
