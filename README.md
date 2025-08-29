@@ -20,7 +20,6 @@ We aim to analyze model performance, training behavior, and generalization.
 
 - **Source:** [Chest X-ray Pneumonia Dataset](https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia)  
 - **Preprocessing:** Grayscale X-rays resized to 224×224, normalized to [0,1].  
-- **Channel Conversion:** Grayscale expanded to 3 channels for ViT compatibility.  
 
 ---
 
