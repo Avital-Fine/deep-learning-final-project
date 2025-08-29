@@ -39,10 +39,10 @@ We aim to analyze model performance, training behavior, and generalization.
 | Model | Accuracy | Precision | Recall | F1-score |
 |-------|----------|----------|--------|----------|
 | CNN   | 0.85     | 0.86     | 0.85   | 0.85     |
-| ViT   | 0.77     | 0.81     | 0.77   | 0.75     |
+| ViT   | 0.78     | 0.78     | 0.77   | 0.75     |
 
 - **CNN:** ~404k parameters, faster convergence, strong baseline.  
-- **ViT:** ~14.6M parameters, longer training, better recall, captures global context.
+- **ViT:** ~14.4M parameters, longer training, better recall, captures global context.
 
 ### Observations
 
