@@ -42,7 +42,7 @@ We aim to analyze model performance, training behavior, and generalization.
 | ViT   | 0.78     | 0.78     | 0.77   | 0.75     |
 
 - **CNN:** ~404k parameters, faster convergence, strong baseline.  
-- **ViT:** ~14.4M parameters, longer training, better recall, captures global context. 
+- **ViT:** ~14.4M parameters, longer training, captures global context. 
 
 ---
 
