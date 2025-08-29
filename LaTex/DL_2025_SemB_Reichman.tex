@@ -91,7 +91,7 @@ Our experiments revealed several important insights:
     \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.4M, which explains the longer training time and larger memory requirements.
     \item \textbf{Overfitting behavior:} The CNN showed more stable generalization on the small dataset, whereas the ViT demonstrated stronger fitting capacity but tended to overfit due to its higher complexity and data requirements.
     \item \textbf{Interpretability:} ViT attention maps provided more interpretable visualizations, highlighting relevant lung regions. CNN feature maps were less intuitive in comparison.
-    \item \textbf{Medical relevance:} ViT’s improved recall is noteworthy, as missing pneumonia cases (false negatives) can be more harmful than false positives. This suggests ViTs may have practical value in medical screening despite higher training costs.
+    \item \textbf{Medical relevance:} Both models achieved comparable recall, indicating similar effectiveness in minimizing false negatives. However, ViTs may still hold promise for medical screening if trained on larger datasets, given their ability to capture global context and provide more interpretable attention maps.
 \end{itemize}
 
 Overall, CNNs remain a strong and efficient baseline for medical imaging tasks, while ViTs represent a promising direction, especially when pretrained on large datasets or when interpretability is a priority.
