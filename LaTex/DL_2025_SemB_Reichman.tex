@@ -16,8 +16,7 @@
 \maketitle
 
 \section{Introduction}
-In recent years, deep learning has revolutionized the field of medical imaging, especially in automated diagnosis using chest X-rays. Pneumonia classification is a key use case due to its high clinical importance. Traditionally, Convolutional Neural Networks (CNNs) have been the dominant architecture for computer vision tasks. More recently, Vision Transformers (ViTs) \citep{dosovitskiy2020image} have gained attention as a strong alternative.  
-In this project, we compare CNN and ViT architectures for binary pneumonia detection from grayscale chest X-ray images. The goal is to analyze their relative performance, training behavior, and generalization ability.
+In recent years, deep learning has revolutionized the field of medical imaging, especially in automated diagnosis usingchest X-rays. Pneumonia classification is a key use case due to its high clinical importance. Traditionally, Convolutional Neural Networks (CNNs) have been the dominant architecture for computer vision tasks. More recently, Vision Transformers (ViTs) \citep{dosovitskiy2020image} have gained attention as an alternative. In this project, we compare CNN and ViT architectures for binary pneumonia detection from grayscale chest X-ray images. Our goal is to analyze their relative performance, training behavior, and generalization ability, with a focus on how well these models work on a limited dataset.
 
 \section{Methodology}
 
@@ -37,8 +36,10 @@ Both models were trained using the Adam optimizer with a learning rate of $1e^{-
 \subsection{Challenges}
 Key challenges included: 
 (1) preventing overfitting given the relatively small dataset, 
-(2) ensuring fair comparison by keeping training procedures consistent across models, and 
-(3) dealing with computational efficiency and resource constraints, since the ViT required significantly more time and memory to train compared to the CNN.
+(2) ensuring fair comparison by keeping training procedures consistent across models, 
+(3) dealing with computational efficiency and resource constraints, since the ViT required significantly more time and memory to train compared to the CNN, and
+(4) working with a very small validation set (16 images) compared to the test set (600 images), which made early stopping and hyperparameter tuning more difficult.
+
 \section{Experimental Results}
 
 \subsection{Evaluation Metrics}
@@ -62,7 +63,7 @@ ViT   & 0.78    & 0.78      & 0.77   & 0.75 \\
 \end{table}
 
 \subsection{Learning Curves}
-Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} show the training loss over epochs. CNN achieved faster convergence and outperformed ViT across all metrics, including recall, while ViT required longer training but still lagged behind CNN.
+Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} show the training loss over epochs. CNN achieved faster convergence and outperformed ViT across all metrics, including recall. ViT required longer training and more resources but did not surpass CNN performance on this dataset.
 
 \begin{figure}[h!]
     \centering
@@ -86,18 +87,17 @@ Figure~\ref{fig:cnn_training_losses} and Figure~\ref{fig:vit_training_losses} sh
 Our experiments revealed several important insights:
 
 \begin{itemize}
-    \item \textbf{CNN efficiency:} The CNN baseline trained significantly faster and achieved high accuracy in fewer epochs. Its strong inductive bias for local features made it effective for detecting pneumonia patterns localized in lung regions.
-    \item \textbf{ViT capacity:} The Vision Transformer required more training time and data to reach its performance, reflecting its higher model complexity, but it can capture more global context across the X-ray image.
-    \item \textbf{Overfitting behavior:} The CNN generalized more stably on the small dataset, whereas the ViT showed stronger fitting capacity but tended to overfit due to its higher complexity and data requirements.
-    \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.4M, explaining the longer training time and larger memory requirements.
-    \item \textbf{Interpretability:} ViT attention maps provided more interpretable visualizations, highlighting relevant lung regions, while CNN feature maps were less intuitive.
+    \item \textbf{CNN efficiency and performance:} The CNN baseline trained significantly faster and achieved higher accuracy, precision, recall, and F1-score in fewer epochs. Its strong inductive bias for local features makes it particularly effective for detecting pneumonia patterns localized in lung regions.
+    \item \textbf{ViT limitations on small datasets:} The Vision Transformer required more training time and computational resources. On this relatively small dataset, it underperformed compared to CNN, showing signs of overfitting due to its higher model complexity and data requirements.
+    \item \textbf{Overfitting behavior:} CNN generalized more stably, whereas ViT tended to overfit, further highlighting the challenges of training large transformer models on limited data.
+    \item \textbf{Model complexity:} CNN contains roughly 404k parameters, while ViT contains ~14.4M, explaining the longer training time and larger memory requirements for ViT.
+    \item \textbf{Interpretability:} ViT attention maps offered more interpretable visualizations, highlighting relevant lung regions, while CNN feature maps were less intuitive.
 \end{itemize}
 
-Overall, CNNs remain a strong and efficient baseline for medical imaging tasks, while ViTs represent a promising direction, especially when pretrained on large datasets or when interpretability is important.
+Overall, CNN remains the more effective and efficient model for pneumonia detection on this dataset. ViTs, however, may become competitive with larger datasets or pretraining and provide added interpretability through attention maps.
 
 \section{Code}
-The code for this project is available on GitHub: 
-\href{https://github.com/Avital-Fine/deep-learning-final-project}{\texttt{deep-learning-final-project}}
+The code for this project is available on GitHub: \href{https://github.com/Avital-Fine/deep-learning-final-project}{\texttt{deep-learning-final-project}}
 
 \bibliographystyle{plain}
 \bibliography{references}
